@@ -19,9 +19,10 @@ def read_subfunction(func: any, msg: str) -> None:
         read_subfunction(func, 'не верный ввод')
 
 
-def read_file() -> None:
-    path = input(r'введите путь + файл (пример "test\text.txt"): ')
-    is_stop(path)
+def read_file(path=None) -> None:
+    if not path:
+        path = input(r'введите путь + файл (пример "test\text.txt"): ')
+        is_stop(path)
     if os.path.exists(path):
         with open(path, encoding='utf-8') as f:
             print('___Данные из файла___' + '\n' + f.read() + '\n')
