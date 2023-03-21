@@ -1,0 +1,7 @@
+#     '1': read_dir,   ok
+#     '2': create_dir, ok
+#     '3': create_file,  ok
+#     '4': read_file,
+#     '5': write_file,
+#     '6': append_file,
+#     'quit': stop
