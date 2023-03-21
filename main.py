@@ -1,8 +1,7 @@
-from append import append_file
-from create import create_file, create_dir
-from quit import stop
-from read import read_dir, read_file
-from write import write_file
+from app.create import create_file, create_dir
+from app.quit import stop
+from app.read import read_dir, read_file
+from app.write import write_file, append_file
 
 
 def incorrect_input_in_main_menu():

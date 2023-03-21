@@ -1,6 +1,6 @@
 import os
 
-from quit import is_stop, stop
+from app.quit import is_stop, stop
 
 
 def read_subfunction(func: any, msg: str) -> None:
@@ -24,8 +24,12 @@ def read_file(path=None) -> None:
         path = input(r'введите путь + файл (пример "test\text.txt"): ')
         is_stop(path)
     if os.path.exists(path):
-        with open(path, encoding='utf-8') as f:
-            print('___Данные из файла___' + '\n' + f.read() + '\n')
+        try:
+            with open(path, encoding='utf-8') as f:
+                print(f'___Данные из файла {path}___' + '\n' + f.read() + '\n')
+        except Exception:
+            print('ошибка')
+            read_file()
     else:
         print('\n' + 'такой файл не существует')
         read_subfunction(func=read_file, msg='')

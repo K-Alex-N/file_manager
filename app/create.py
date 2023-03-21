@@ -1,6 +1,6 @@
 import os
 
-from quit import is_stop
+from app.quit import is_stop
 
 
 def is_exist(path, text):
