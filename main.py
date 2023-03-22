@@ -14,18 +14,16 @@ def main_menu():
         print(f.read())
 
     inpt = input('ввод: ').strip()
-    d.get(inpt, incorrect_input_in_main_menu)()
+    {
+        '1': read_dir,
+        '2': create_dir,
+        '3': create_file,
+        '4': read_file,
+        '5': write_file,
+        '6': append_file,
+        'quit': stop
+    }.get(inpt, incorrect_input_in_main_menu)()
 
-
-d = {
-    '1': read_dir,
-    '2': create_dir,
-    '3': create_file,
-    '4': read_file,
-    '5': write_file,
-    '6': append_file,
-    'quit': stop
-}
 
 if __name__ == '__main__':
     while True:

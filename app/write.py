@@ -27,11 +27,10 @@ def file_does_not_exist(path: str, mode: Literal['a', 'w'], first_phrase=True):
         create_file(path)
         question_to_add_information_to_file(path)
     elif s_in == '2':
-        d = {
+        {
             'w': write_file,
             'a': append_file
-        }
-        d[mode]()
+        }[mode]()
     else:
         print('введенные данные не распознаны')
         file_does_not_exist(path, mode, first_phrase=False)
@@ -50,11 +49,10 @@ def write_or_append_into_file(path: str, mode: Literal['a', 'w']) -> None:
         read_file(path)
     except Exception:
         print('произошла ошибка')
-        d = {
+        {
             'w': write_file,
             'a': append_file
-        }
-        d[mode]()
+        }[mode]()
 
 
 def write_or_append_file(mode: Literal['a', 'w']) -> None:

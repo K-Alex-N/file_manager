@@ -15,8 +15,12 @@ def create_dir():
     if is_exist(str_in, 'Папка уже существует'):
         create_dir()
     else:
-        os.makedirs(str_in)
-        print(f'Папка "{str_in}" успешно создана')
+        try:
+            os.makedirs(str_in)
+            print(f'Папка "{str_in}" успешно создана')
+        except Exception:
+            print('ошибка')
+            create_dir()
 
         # может предлагать сразу же создать файл в этой папке?
         # print('1 - добавить в папку файл')
@@ -29,7 +33,11 @@ def create_file(str_in=None):
     if is_exist(str_in, 'Файл уже существует'):
         create_file()
     else:
-        open(str_in, 'w')
-        print(f'Файл "{str_in}" успешно создан')
+        try:
+            open(str_in, 'w')
+            print(f'Файл "{str_in}" успешно создан')
+        except Exception:
+            print('ошибка')
+            create_file()
 
-    # если введен пути нет то предлагать его создать?
+    # если введенного пути нет -> то предлагать его создать?
