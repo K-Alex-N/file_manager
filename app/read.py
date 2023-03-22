@@ -1,10 +1,10 @@
 import os
-from typing import Callable
+from typing import Callable, Optional
 
 from app.quit import input_with_quit_check
 
 
-def incorrect_input(func):
+def incorrect_input(func: Callable) -> None:
     print('\n' + 'не верный ввод')
     read_subfunction(func)
 
@@ -13,14 +13,13 @@ def read_subfunction(func: Callable) -> None:
     print('1 - ввести новый путь')
     print('2 - вернуться в главное меню')
     str_in = input_with_quit_check('введите (1 или 2): ')
-    action = {
+    {
         '1': func,
         '2': lambda: 'ничего не делаем, текущая функция закончится и снова начнется main_menu',
-    }.get(str_in, incorrect_input(func))()
+    }.get(str_in, lambda: incorrect_input(func))()
 
 
-
-def read_file(str_in=None) -> None:
+def read_file(str_in: Optional[str] = None) -> None:
     if not str_in:
         str_in = input_with_quit_check(r'введите путь + файл (пример "test\text.txt"): ')
     if os.path.exists(str_in):
