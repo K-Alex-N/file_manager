@@ -1,41 +1,15 @@
 import os
 
+from typing import Literal
 from app.create import create_file
-from app.quit import is_stop
+from app.quit import input_with_quit_check
 from app.read import read_file
 
-
-def write_into_file(path):
-    try:
-        with open(path, 'w', encoding='utf-8') as f:
-            while True:
-                x = input('Добавьте строчку текста. Для завершения введите "stop": ')
-                if x == 'stop':
-                    break
-                f.write(x + '\n')
-        read_file(path)
-    except Exception:
-        print('произошла ошибка')
-        write_file()
-
-def append_into_file(path):
-    try:
-        read_file(path)
-        with open(path, 'a', encoding='utf-8') as f:
-            while True:
-                x = input('Добавьте строчку текста. Для завершения введите "stop": ')
-                if x == 'stop':
-                    break
-                f.write(x + '\n')
-        read_file(path)
-    except Exception:
-        print('произошла ошибка')
-        append_file()
 
 def question_to_add_information_to_file(path):
     x = input('Добавить информацию в файл? ("Да"/"Нет"): ').lower()
     if x == 'да':
-        write_into_file(path)
+        write_or_append_into_file(path, 'w')
     elif x == 'нет':
         return
     else:
@@ -43,7 +17,7 @@ def question_to_add_information_to_file(path):
         question_to_add_information_to_file(path)
 
 
-def file_does_not_exist(path, write_file_or_append_file, first_phrase=True):
+def file_does_not_exist(path: str, mode: Literal['a', 'w'], first_phrase=True):
     if first_phrase:
         print('такой файл не найден')
     print('1 - создать файл')
@@ -53,24 +27,47 @@ def file_does_not_exist(path, write_file_or_append_file, first_phrase=True):
         create_file(path)
         question_to_add_information_to_file(path)
     elif s_in == '2':
-        write_file_or_append_file()
+        d = {
+            'w': write_file,
+            'a': append_file
+        }
+        d[mode]()
     else:
         print('введенные данные не распознаны')
-        file_does_not_exist(path, write_file_or_append_file, first_phrase=False)
+        file_does_not_exist(path, mode, first_phrase=False)
+
+
+def write_or_append_into_file(path: str, mode: Literal['a', 'w']) -> None:
+    try:
+        if mode == 'a':
+            read_file(path)
+        with open(path, mode, encoding='utf-8') as f:
+            while True:
+                x = input('Добавьте строчку текста. Для завершения введите "stop": ')
+                if x == 'stop':
+                    break
+                f.write(x + '\n')
+        read_file(path)
+    except Exception:
+        print('произошла ошибка')
+        d = {
+            'w': write_file,
+            'a': append_file
+        }
+        d[mode]()
+
+
+def write_or_append_file(mode: Literal['a', 'w']) -> None:
+    str_in = input_with_quit_check(r'введите путь + файл (пример "test\text.txt"): ')
+    if os.path.exists(str_in):  # не видит разницу между файлом и папкой!
+        write_or_append_into_file(str_in, mode)
+    else:
+        file_does_not_exist(str_in, mode)
 
 
 def write_file():
-    path = input(r'введите путь + файл (пример "test\text.txt"): ')
-    is_stop(path)
-    if os.path.exists(path):  # не видит разницу между файлом и папкой!
-        write_into_file(path)
-    else:
-        file_does_not_exist(path, write_file)
+    write_or_append_file('w')
+
 
 def append_file():
-    path = input(r'введите путь + файл (пример "test\text.txt"): ')
-    is_stop(path)
-    if os.path.exists(path):
-        append_into_file(path)
-    else:
-        file_does_not_exist(path, append_file)
+    write_or_append_file('a')

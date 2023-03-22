@@ -1,6 +1,6 @@
 import os
 
-from app.quit import is_stop, stop
+from app.quit import stop, input_with_quit_check
 
 
 def read_subfunction(func: any, msg: str) -> None:
@@ -19,14 +19,13 @@ def read_subfunction(func: any, msg: str) -> None:
         read_subfunction(func, 'не верный ввод')
 
 
-def read_file(path=None) -> None:
-    if not path:
-        path = input(r'введите путь + файл (пример "test\text.txt"): ')
-        is_stop(path)
-    if os.path.exists(path):
+def read_file(str_in=None) -> None:
+    if not str_in:
+        str_in = input_with_quit_check(r'введите путь + файл (пример "test\text.txt"): ')
+    if os.path.exists(str_in):
         try:
-            with open(path, encoding='utf-8') as f:
-                print(f'___Данные из файла {path}___' + '\n' + f.read() + '\n')
+            with open(str_in, encoding='utf-8') as f:
+                print(f'___Данные из файла {str_in}___' + '\n' + f.read() + '\n')
         except Exception:
             print('ошибка')
             read_file()
@@ -36,11 +35,10 @@ def read_file(path=None) -> None:
 
 
 def read_dir() -> None:
-    path = input(r'введите путь до папки (пример "C:\" или "."): ')
-    is_stop(path)
-    if os.path.exists(path):
-        print(f'___Файлы и папки в директории "{path}"___')
-        [print(v) for v in os.listdir(path)] + [print('\n')]
+    str_in = input_with_quit_check(r'введите путь до папки (пример "C:\" или "."): ')
+    if os.path.exists(str_in):
+        print(f'___Файлы и папки в директории "{str_in}"___')
+        [print(v) for v in os.listdir(str_in)] + [print('\n')]
     else:
         print('\n' + 'такого пути нет')
         read_subfunction(func=read_dir, msg='')
